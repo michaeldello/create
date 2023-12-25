@@ -17,7 +17,7 @@ CREATE is a general purpose python executive for developing software.
 
 This is a generic framework for allowing a developer to quickly iterate on their work, all in one step.
 
-The executive is divided into stages, each with a particular objective for development, e.g., build, document, test, analyze. In each case, configuration files are read to decide how to proceed with execution. A simple way to think of this is a "CI/CD Lite" executive, whose configurable nature allows it to be as simple or as complex for personal software development automation.
+The executive is divided into stages, each with a particular objective for development, e.g., build, document, test, analyze. In each case, configuration files are read to decide how to proceed with execution. A simple way to think of this is a "CI/CD Lite" executive, whose configurable nature allows it to be as simple or as complex as needed for personal software development automation.
 
 ## Features
 
