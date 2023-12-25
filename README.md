@@ -1,2 +1,2 @@
 # create
-Configurable Reusable Extensible Automated Test Executive
+Configurable Reusable Extensible Automated Tinkering Executive
