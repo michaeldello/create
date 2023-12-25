@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+'''
+    File name: go-create.py
+    Author: Michael Dello
+    Date created: 12/24/2023
+    Date last modified: 12/25/2023
+    Python Version: 3.12
+'''
 
 import argparse
 import json
@@ -9,6 +16,7 @@ import subprocess
 # Constants
 #------------------------------------------------------------------------------
 
+# This can be optionally overridden in a configuration file
 STAGE_ORDER_KEY = "stage_order"
 DEFAULT_STAGE_ORDER = [
     "build",
@@ -16,6 +24,7 @@ DEFAULT_STAGE_ORDER = [
     "analyze"
 ]
 
+# This can be optionally overridden in a configuration file
 STEP_ORDER_KEY = "step_order"
 DEFAULT_STEP_ORDER = [
     "prep",
@@ -23,12 +32,14 @@ DEFAULT_STEP_ORDER = [
     "cleanup"
 ]
 
+OUTPUT_SEPARATOR = "-----------------------------------------------------"
+
 #------------------------------------------------------------------------------
 # Main
 #------------------------------------------------------------------------------
 def main(args):
-    print(
-        "-----------------------------------------------------")
+    '''Iterate through the specified configuration and execute the commands'''
+    print(OUTPUT_SEPARATOR)
     print(f"Using '{args.config}' config")
     with (open(os.path.join("configs", f"{args.config}.json")) as cf):
         # Load the execution map from the configuration
@@ -53,8 +64,7 @@ def main(args):
                 cmd = cmdentry.get("cmd","")
                 # Use shell by default, unless specified otherwise
                 executeinshell = cmdentry.get("shell",True)
-                print(
-                    "-----------------------------------------------------")
+                print(OUTPUT_SEPARATOR)
                 print(
                     "Executing: [stage = {}] - [step = {}] - [cmd = {}]".format(
                         stage,
@@ -81,11 +91,9 @@ def main(args):
                     print(
                         "\tCaptured Output\t: {}".format(
                             cc.stdout.replace('\\n', '\n')))
-    print(
-        "-----------------------------------------------------")
-    print("Processing Completed")
-    print(
-        "-----------------------------------------------------")
+    print(OUTPUT_SEPARATOR)
+    print("Execution Completed")
+    print(OUTPUT_SEPARATOR)
 
 #------------------------------------------------------------------------------
 if __name__ == '__main__':
@@ -95,5 +103,5 @@ if __name__ == '__main__':
                         help="Specify a config from the 'configs/' folder",
                         default="guidance")
     args = parser.parse_args()
-    # Go
+    # Go!
     main(args)
