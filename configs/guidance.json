@@ -1,0 +1,55 @@
+{
+    "stages": {
+        "build": {
+            "prep": [
+                {
+                    "cmd": "echo Prepare for build"
+                }
+            ],
+            "execute": [
+                {
+                    "cmd": "echo Execute build"
+                }
+            ],
+            "cleanup": [
+                {
+                    "cmd": "echo Cleanup from build"
+                }
+            ]
+        },
+        "test": {
+            "prep": [
+                {
+                    "cmd": "echo Prepare for test"
+                }
+            ],
+            "execute": [
+                {
+                    "cmd": "echo Execute test"
+                }
+            ],
+            "cleanup": [
+                {
+                    "cmd": "echo Cleanup from test"
+                }
+            ]
+        },
+        "analyze": {
+            "prep": [
+                {
+                    "cmd": "echo Prepare for analysis"
+                }
+            ],
+            "execute": [
+                {
+                    "cmd": "echo Execute analysis"
+                }
+            ],
+            "cleanup": [
+                {
+                    "cmd": "echo Cleanup from analysis"
+                }
+            ]
+        }
+    }
+}
