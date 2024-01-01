@@ -24,7 +24,7 @@ def rc2str(retcode):
     """
         Create a new cmd object based on specified parameters
     """
-    return RCMAP.get(retcode,"")
+    return RCMAP.get(retcode, f"ERROR: Unrecognized retcode {retcode}")
 
 
 #-------------------------------------------------------------------------------

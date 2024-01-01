@@ -55,7 +55,7 @@ def clearLogs():
             os.path.join(
                 createutils.OUTPUTDIR, createutils.LOGFILENAME.format("*")))
     for file in files:
-        if createutils.loggingIsActivated() and \
+        if createutils.loggingIsStarted() and \
                 (createutils.THISLOGFILE not in file):
             os.remove(file)
 
@@ -68,7 +68,7 @@ def main(args):
     """
     retcode = createif.RC_SUCCESS
     try:
-        createutils.activateLogging()
+        createutils.startLogging()
         if args.clear_logs:
             clearLogs()
         log.info(OUTPUT_SEPARATOR)
@@ -147,15 +147,11 @@ def main(args):
 #------------------------------------------------------------------------------
 if __name__ == '__main__':
     """
-    -----------------------------------------
-     CLI ARGPARSER SETUP
-    
-     Set up the CLI separately to decouple
-     main function from CLI. This allows
-     the main function to be imported in
-     other scripts as an app handler, if
-     needed
-    -----------------------------------------
+        Set up the CLI separately to decouple
+        main function from CLI. This allows
+        the main function to be imported in
+        other scripts as an app handler, if
+        needed
     """
     rc = createif.RC_FAILEXC
     parser = argparse.ArgumentParser()
@@ -164,19 +160,17 @@ if __name__ == '__main__':
         version=f'{createutils.MODULE_NAME}-v{createutils.MODULE_VERSION}')
     parser.add_argument(
         "-cl", "--clear-logs", action="store_true",
-        help='''Optionally clear the logs folder''')
+        help=f"Optionally clear the {createutils.OUTPUTDIR} folder")
     parser.add_argument('-c', '--config',
                         action="store",
                         help="Specify a config from the 'configs/' folder",
                         default="guidance")
-    #-----------------------------------------
     # Set parser function to run as main
     parser.set_defaults(func=main)
     args = parser.parse_args()
-    #-----------------------------------------
     # Go!
     try:
         rc = args.func(args)
     except Exception as e:
-        sys.stderr.write("Immediate exception after CLI parsing: " + str(e))
+        sys.stderr.write("Immediate exception: " + str(e))
     exit(rc)
