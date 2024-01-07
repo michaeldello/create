@@ -208,7 +208,7 @@ class BaseCommand(object):
         return success, output if output else ""
 
 # -------------------------------------------------------------------------------
-def createcmd(version=createif.CV_BASIC, config={}, logger=None):
+def createCmd(version=createif.CV_BASIC, config={}, logger=None):
     """
         Create a new cmd object based on specified parameters
     """
