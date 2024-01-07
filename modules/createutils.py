@@ -18,7 +18,7 @@ MODULE_NAME = "create"
 MODULE_VERSION = "1.1"
 
 # Some implementations diverge based on OS
-THIS_IS_WINDOWS  = True if "nt" in os.name else False
+THIS_IS_WINDOWS = True if "nt" in os.name else False
 
 # Logging
 OUTPUTDIR   = "logs"
@@ -73,7 +73,7 @@ def flushconsole():
 def logmsg(msg, logger=None, level=logging.DEBUG):
     '''
     Logging facility, because this is a generic/common module, and logging
-    during certain functions in this module may need to be supressed in certain
+    during certain functions in this module may need to be suppressed in certain
     contexts, provide a way to allow caller to pass in their own logger object
     that uses the python logging API, implemented on their own terms
     '''

@@ -14,6 +14,17 @@ import createif
 import createutils
 
 #-------------------------------------------------------------------------------
+# Constants
+#-------------------------------------------------------------------------------
+
+# To avoid execution hang, cap the default worst case timeout to 1 hour (can
+# be overridden)
+DEFAULT_CMD_TIMEOUT_IN_SECS = 360
+
+DEFAULT_CMD_RETRIES = 0
+DEFAULT_CMD_DELAY = 8
+
+#-------------------------------------------------------------------------------
 # Local Variables
 #-------------------------------------------------------------------------------
 
@@ -31,13 +42,6 @@ class BaseCommand(object):
     #---------------------------------------------------------------------------
     # Constants
     #---------------------------------------------------------------------------
-
-    # To avoid execution hang, cap the default worst case timeout to 1 hour (can
-    # be overridden)
-    DEFAULT_CMD_TIMEOUT_IN_SECS = 360
-
-    DEFAULT_CMD_RETRIES  = 0
-    DEFAULT_CMD_DELAY    = 8
 
     #--------------------------------------------------------------------------
     # Built-in Methods
@@ -59,7 +63,7 @@ class BaseCommand(object):
             failonOutput=[],
             retries=DEFAULT_CMD_RETRIES,
             delay=DEFAULT_CMD_DELAY,
-            timeout=self.DEFAULT_CMD_TIMEOUT_IN_SECS,
+            timeout=DEFAULT_CMD_TIMEOUT_IN_SECS,
             cwd=None):
         '''
             Execute the command within current context, verify expected output
@@ -105,16 +109,12 @@ class BaseCommand(object):
                     errmsg = \
                         "FAILURE: {} failed; timeout after {} seconds".format(
                             cmdtoexecute, timeout)
-                    # While this is an error, report as warning because this
-                    # path of execution allows for retries, and ultimately,
-                    # caller determines error condition
                     self.log.error(errmsg)
-                    # Kill the process (tree under parent)
-                    # This method is used because the documented Python behavior
+                    # Kill the process tree under parent
+                    # The documented Python behavior
                     # of subprocess with PIPEs and timeouts does not work
-                    # (see https://bugs.python.org/issue31447)
-                    # The psutil library allows killing a "process tree" in
-                    # Windows
+                    # (https://bugs.python.org/issue31447)
+                    # The psutil library can portably kill a "process tree"
                     psup = psutil.Process(parentpid)
                     psucs = psup.children(recursive=True)
                     for c in psucs:
@@ -122,11 +122,9 @@ class BaseCommand(object):
                     psutil.wait_procs(psucs, timeout=1)
                     # Because of the timeout, and process is killed, output is
                     # likely lost
-                    self.log.debug(
-                        "Potential output loss due to process being killed")
                     output = \
                         "(stdout): {}; (stderr): {}".format(
-                            output if output else "",
+                            output if output else "no output, process killed",
                             err if err else "")
                 except OSError as e:
                     success = False

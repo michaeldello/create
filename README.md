@@ -35,7 +35,7 @@ The executive is divided into stages, each with a particular objective for devel
 
 ## Installation
 
-TBD
+pip3 install -r install/py-libs.txt
 
 ## Usage
 
